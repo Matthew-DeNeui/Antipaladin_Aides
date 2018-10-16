@@ -1,0 +1,116 @@
+<div class="row align-items-start">
+
+  <div class="col-12 order-last col-md-7 order-md-first px-md-0">
+    <nb-card>
+      <nb-card-header>
+        <div class="d-flex">
+          <span class="mr-auto">Diseases</span>
+        </div>
+      </nb-card-header>
+
+      <nb-card-body>
+        <ng2-smart-table [settings]="settings" [source]="source" (delete)="onDeleteConfirm($event)" (userRowSelect)="rowSelected($event)"
+          (create)="newDisease()"></ng2-smart-table>
+      </nb-card-body>
+    </nb-card>
+  </div>
+
+  <div class="col-12 order-first col-md-4 ml-md-5 order-md-last px-md-0">
+    <nb-card>
+      <form #adupDisForm="ngForm" id="adupDis" class="container-fluid" (ngSubmit)="saveDisease()" autocomplete="off" novalidate>
+      <nb-card-header class="no-border-b">
+        <div class="d-flex">
+          <span class="mr-auto">Disease View</span>
+          <button (click)="editDisease()" *ngIf="!edit" [disabled]="!selectedDisease" class="btn btn-hero-primary waves-effect waves-light">Edit</button>
+          <button type="submit" [disabled]="adupDisForm.invalid" *ngIf="edit" class="btn btn-hero-success waves-effect waves-light">Save</button>
+          <button (click)="cancelEdit()" *ngIf="edit" class="btn btn-hero-secondary waves-effect waves-light">Cancel</button>
+        </div>
+      </nb-card-header>
+      <nb-card-body>
+        <!-- PLAIN VIEW -->
+        <div *ngIf="selectedDisease && !edit">
+          <div class="row mb-2">
+            <div class="col-12 disease-header text-heading">{{selectedDisease?.name}}</div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-12 col-sm-3">Onset:</div>
+            <div class="col-12 col-sm-7">
+              <div class="badge badge-primary">{{selectedDisease?.onset}}</div>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-12 col-sm-3">Frequency:</div>
+            <div class="col-12 col-sm-7">
+              <div class="badge badge-primary">{{selectedDisease?.frequency}}</div>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-12 col-sm-3">Save:</div>
+            <div class="col-12 col-sm-7">
+              <div class="badge badge-primary">{{selectedDisease?.save}}</div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <span class="mb-2">Description:</span>
+            </div>
+            <p class="col-12">
+              <span *ngIf="hideDescription">
+                {{ selectedDisease?.description | limitTo: 140 }}
+                <a class="text-info" (click)="hideDescription=false;">see more</a>
+              </span>
+              <span *ngIf="!hideDescription">
+                {{ selectedDisease?.description }}
+                <a class="text-info" (click)="hideDescription=true;">hide</a>
+              </span>
+            </p>
+          </div>
+        </div>
+        <!-- PLAIN VIEW -->
+
+        <!-- EDIT VIEW -->
+        <div *ngIf="edit">
+          <div class="row mb-2 align-items-center">
+            <div class="col-12 col-sm-3">Name:</div>
+            <div class="col-12 col-sm-7">
+              <input required [(ngModel)]="diseaseToEdit.name" type="text" name="name" class="form-control" [ngClass]="{'form-control-danger': (adupDisForm.controls.name?.invalid) && (adupDisForm.controls.name?.touched || mouseoverInfection) }">
+              <em *ngIf="adupDisForm.controls.name?.invalid && (adupDisForm.controls.name?.touched || mouseoverInfection)">Required</em>
+            </div>
+          </div>
+          <div class="row mb-2 align-items-center">
+            <div class="col-12 col-sm-3">Onset:</div>
+            <div class="col-12 col-sm-7">
+              <input required [(ngModel)]="diseaseToEdit.onset" type="text" name="onset" class="form-control" [ngClass]="{'form-control-danger': (adupDisForm.controls.onset?.invalid) && (adupDisForm.controls.onset?.touched || mouseoverInfection) }">
+              <em *ngIf="adupDisForm.controls.onset?.invalid && (adupDisForm.controls.onset?.touched || mouseoverInfection)">Required</em>
+            </div>
+          </div>
+          <div class="row mb-2 align-items-center">
+            <div class="col-12 col-sm-3">Frequency:</div>
+            <div class="col-12 col-sm-7">
+              <input required [(ngModel)]="diseaseToEdit.frequency" type="text" name="frequency" class="form-control" [ngClass]="{'form-control-danger': (adupDisForm.controls.frequency?.invalid) && (adupDisForm.controls.frequency?.touched || mouseoverInfection) }">
+              <em *ngIf="adupDisForm.controls.frequency?.invalid && (adupDisForm.controls.frequency?.touched || mouseoverInfection)">Required</em>
+            </div>
+          </div>
+          <div class="row mb-2 align-items-center">
+            <div class="col-12 col-sm-3">Save:</div>
+            <div class="col-12 col-sm-7">
+              <input required [(ngModel)]="diseaseToEdit.save" type="text" name="save" class="form-control" [ngClass]="{'form-control-danger': (adupDisForm.controls.save?.invalid) && (adupDisForm.controls.save?.touched || mouseoverInfection) }">
+              <em *ngIf="adupDisForm.controls.save?.invalid && (adupDisForm.controls.save?.touched || mouseoverInfection)">Required</em>
+            </div>
+          </div>
+          <div class="row align-items-center">
+            <div class="col-12">
+              <span class="mb-2">Description:</span>
+            </div>
+            <div class="col-12">
+              <textarea [(ngModel)]="diseaseToEdit.description" name="description" class="form-control" rows="5"></textarea>
+            </div>
+          </div>
+        </div>
+        <!-- EDIT VIEW -->
+      </nb-card-body>
+      </form>
+    </nb-card>
+  </div>
+
+</div>

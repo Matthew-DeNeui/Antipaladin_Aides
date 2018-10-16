@@ -1,0 +1,31 @@
+<div class="container-fluid ml-list">
+  <div class="row">
+    <span class="disease-header text-heading">{{disease.name}}</span>
+  </div>
+  <div class="row mb-2">
+    <span class="col">Onset:
+      <span class="badge badge-primary">{{disease.onset}}</span>
+    </span>
+    <span class="col">Frequency:
+      <span class="badge badge-primary">{{disease.frequency}}</span>
+    </span>
+    <span class="col">Save:
+      <span class="badge badge-primary">{{disease.save}}</span>
+    </span>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <span>Description:</span>
+    </div>
+    <p class="col-12">
+      <span *ngIf="hideDescription">
+        {{ disease.description | limitTo: limitValue }}
+        <a *ngIf="limitDescription" class="text-info" (click)="hideDescription=false;">see more</a>
+      </span>
+      <span *ngIf="!hideDescription">
+        {{ disease.description }}
+        <a *ngIf="limitDescription" class="text-info" (click)="hideDescription=true;">hide</a>
+      </span>
+    </p>
+  </div>
+</div>

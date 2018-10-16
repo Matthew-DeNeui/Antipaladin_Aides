@@ -1,0 +1,71 @@
+<!--Main container-->
+<div class="container mt-3">
+
+  <nb-card>
+    <nb-card-header>Antipaladin Stats</nb-card-header>
+    <nb-card-body>
+      <form #infectionForm="ngForm" id="antiPal" class="container-fluid" (ngSubmit)="infectAntipaladin(infectionForm.value)" autocomplete="off" novalidate>
+        <!-- ANTIPALADIN LEVEL -->
+        <div class="row my-2 align-items-center">
+          <div class="col-12 col-sm-4 col-md-3 col-lg-2 col-xl-2">
+            <label for="antipaladinLevel" class="grey-text text-nowrap">Antipaladin Level</label>
+          </div>
+          <div class="col-12 col-md-6 col-lg-8 col-xl-8">
+            <input [(ngModel)]="antPalLevel" name="levelRange" type="range" min="1" max="20" value="1" class="slider-hero-thin">
+          </div>
+          <div class="col">
+            <input [(ngModel)]="antPalLevel" required name="antiPaladinLevel" #antiPaladinLevel="ngModel" type="number" class="form-control" [ngClass]="{'form-control-danger': (infectionForm.controls.antiPaladinLevel?.invalid) && (infectionForm.controls.antiLevel?.touched || mouseoverInfection) }" [min]="1" [max]="20">
+            <em *ngIf="infectionForm.controls.antiPaladinLevel?.invalid && (infectionForm.controls.antiPaladinLevel?.touched || mouseoverInfection)">Required (1-20)</em>
+            <!-- <em *ngIf="(antiPaladinLevel.errors?.min || antiPaladinLevel.errors?.max) && (infectionForm.controls.antiPaladinLevel?.touched || mouseoverInfection)">Must be (1-20)</em> -->
+          </div>
+        </div>
+        <!-- END ANTIPALADIN LEVEL -->
+
+        <!-- NUMBER OF DISEASES -->
+        <div class="row my-2 align-items-center">
+          <div class="col-12 col-sm-4 col-md-3 col-lg-2 col-xl-2">
+            <label for="numberOfDiseases" class="grey-text text-nowrap">Number of Diseases</label>
+          </div>
+          <div class="col-12 col-md-6 col-lg-8 col-xl-8">
+            <input [(ngModel)]="diseaseNum" name="numberRange" type="range" min="1" max="20" value="1" class="slider-hero-thin">
+          </div>
+          <div class="col">
+            <input [(ngModel)]="diseaseNum" required name="diseaseNumber" #diseaseNumber="ngModel" type="number" class="form-control" [ngClass]="{'form-control-danger': (infectionForm.controls.diseaseNumber?.invalid) && (infectionForm.controls.antiNumber?.touched || mouseoverInfection) }" [min]="1" [max]="20">
+            <em *ngIf="infectionForm.controls.diseaseNumber?.invalid && (infectionForm.controls.diseaseNumber?.touched || mouseoverInfection)">Required (1-20)</em>
+            <!-- <em *ngIf="(diseaseNumber.errors?.min || diseaseNumber.errors?.max) && (infectionForm.controls.diseaseNumber?.touched || mouseoverInfection)">Must be (1-20)</em> -->
+          </div>
+        </div>
+        <!-- END OF NUMBER OF DISEASES -->
+
+        <!-- GENERATE DISEASES SUBMISSION -->
+        <div class="row my-2">
+          <div class="col-12 d-flex mb-2" (mouseenter)="mouseoverInfection=true" (mouseleave)="mouseoverInfection=false">
+            <button id="generateDiseases" [disabled]="infectionForm.invalid" type="submit" class="ml-auto btn btn-hero-primary waves-effect waves-light">
+              Infect
+            </button>
+          </div>
+        </div>
+        <!-- END OF GENERATE DISEASES SUBMISSION -->
+      </form>
+
+    </nb-card-body>
+  </nb-card>
+
+
+  <!-- DISEASE LISTING -->
+  <nb-card>
+    <nb-card-header>Disease Cocktail for AntiPaladin Level {{antPalLevel}}</nb-card-header>
+    <nb-card-body>
+      <!-- Disease Entries -->
+      <ul class="entries">
+        <li *ngFor="let disease of selectedDiseases">
+          <ngx-disease-entry [disease]="disease"></ngx-disease-entry>
+        </li>
+      </ul>
+      <!-- Disease Entries -->
+    </nb-card-body>
+  </nb-card>
+  <!-- END DISEASE LISTING -->
+
+</div>
+<!--Main container-->

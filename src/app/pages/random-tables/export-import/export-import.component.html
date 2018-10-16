@@ -1,0 +1,34 @@
+<nb-card>
+  <nb-card-header>
+    <span class="mr-auto">Export / Import</span>
+  </nb-card-header>
+
+  <nb-card-body>
+    <div class="container-fluid">
+      <div class="row d-flex align-items-center mb-3">
+        <span class="mr-2">Import:</span>
+        <button (click)="importTables()">Choose File</button>
+      </div>
+      <div class="row d-flex align-items-center mb-3">
+        <span class="mr-2">Export:</span>
+        <button (click)="exportTables()">Export All</button>
+      </div>
+      <div class="row align-items-center">
+        <form #exportForm="ngForm" id="exportFormID" class="container-fluid" (ngSubmit)="exportTable()" autocomplete="off" novalidate
+          class="px-0">
+          <div class="d-flex">
+            <span class="mr-2">Export:</span>
+            <span class="mr-2">
+              <button type="submit" [disabled]="exportForm.invalid" (mouseenter)="mouseoverExport=true" (mouseleave)="mouseoverExport=false">Export Table</button>
+            </span>
+            <span>
+              <input [(ngModel)]="tableName" type="text" name="tableName" class="form-control" [ngClass]="{'form-control-danger': (exportForm.controls.tableName?.invalid) && (exportForm.controls.tableName?.touched || mouseoverExport) }"
+                required>
+              <em *ngIf="exportForm.controls.tableName?.invalid && (exportForm.controls.tableName?.touched || mouseoverExport)">Required</em>
+            </span>
+          </div>
+        </form>
+      </div>
+    </div>
+  </nb-card-body>
+</nb-card>

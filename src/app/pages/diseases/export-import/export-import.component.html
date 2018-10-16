@@ -1,0 +1,34 @@
+<nb-card>
+  <nb-card-header>
+    <span class="mr-auto">Export / Import</span>
+  </nb-card-header>
+
+  <nb-card-body>
+    <div class="container-fluid">
+      <div class="row d-flex align-items-center mb-3">
+        <span class="mr-2">Import:</span>
+        <button (click)="importDiseases()">Choose File</button>
+      </div>
+      <div class="row d-flex align-items-center mb-3">
+        <span class="mr-2">Export:</span>
+        <button (click)="exportDiseases()">Export All</button>
+      </div>
+      <div class="row align-items-center">
+        <form #exportForm="ngForm" id="exportFormID" class="container-fluid" (ngSubmit)="exportDisease()" autocomplete="off" novalidate
+          class="px-0">
+          <div class="d-flex">
+            <span class="mr-2">Export:</span>
+            <span class="mr-2">
+              <button type="submit" [disabled]="exportForm.invalid" (mouseenter)="mouseoverExport=true" (mouseleave)="mouseoverExport=false">Export Disease</button>
+            </span>
+            <span>
+              <input [(ngModel)]="diseaseName" type="text" name="diseaseName" class="form-control" [ngClass]="{'form-control-danger': (exportForm.controls.diseaseName?.invalid) && (exportForm.controls.diseaseName?.touched || mouseoverExport) }"
+                required>
+              <em *ngIf="exportForm.controls.diseaseName?.invalid && (exportForm.controls.diseaseName?.touched || mouseoverExport)">Required</em>
+            </span>
+          </div>
+        </form>
+      </div>
+    </div>
+  </nb-card-body>
+</nb-card>

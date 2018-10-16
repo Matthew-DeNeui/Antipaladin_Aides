@@ -1,0 +1,18 @@
+<div class="container-fluid ml-list">
+  <div class="row">
+    <div class="col-12 d-flex px-0">
+      <span>Description:</span>
+    </div>
+
+    <p class="col-12" class="text-indent">
+      <span *ngIf="hideDescription">
+        {{ entry.description | limitTo: limitValue }}
+        <a *ngIf="limitDescription" class="text-info" (click)="hideDescription=false;">see more</a>
+      </span>
+      <span *ngIf="!hideDescription">
+        {{ entry.description }}
+        <a *ngIf="limitDescription" class="text-info" (click)="hideDescription=true;">hide</a>
+      </span>
+    </p>
+  </div>
+</div>

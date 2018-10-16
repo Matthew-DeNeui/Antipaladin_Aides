@@ -1,0 +1,129 @@
+<div class="row align-items-start">
+
+  <div class="col-12 order-last col-md-4 order-md-first px-md-0">
+    <nb-card>
+      <nb-card-header>
+        <div class="d-flex">
+          <span class="mr-auto">Random Tables</span>
+          <button (click)="clearAll()" class="btn btn-hero-danger waves-effect waves-light">Nuke All</button>
+        </div>
+      </nb-card-header>
+
+      <nb-card-body>
+        <ng2-smart-table [settings]="settings" [source]="source" (deleteConfirm)="onDeleteConfirm($event)" (userRowSelect)="rowSelected($event)"
+          (createConfirm)="newTable($event)"></ng2-smart-table>
+      </nb-card-body>
+    </nb-card>
+  </div>
+
+  <div class="col-12 order-first col-md-7 ml-md-5 order-md-last px-md-0">
+    <nb-card>
+      <form #entryForm="ngForm" id="entryFormID" class="container-fluid" (ngSubmit)="saveEntry()" autocomplete="off" novalidate>
+        <nb-card-header class="no-border-b">
+          <div class="d-flex">
+            <span class="mr-auto">Table View</span>
+            <button (click)="addEntry()" *ngIf="!edit && selectedTable" class="btn btn-hero-success waves-effect waves-light">New</button>
+            <button type="submit" [disabled]="entryForm.invalid" *ngIf="edit" class="btn btn-hero-success waves-effect waves-light" (mouseenter)="mouseoverEntry=true"
+              (mouseleave)="mouseoverEntry=false">Save</button>
+            <button (click)="cancelEdit()" *ngIf="edit" class="btn btn-hero-secondary waves-effect waves-light">Cancel</button>
+          </div>
+        </nb-card-header>
+
+        <nb-card-body>
+          <!-- TABLE VIEW -->
+          <div *ngIf="selectedTable && !edit">
+            <form #rollForm="ngForm" id="rollFormID" class="container-fluid" (ngSubmit)="findRollResult()" autocomplete="off" novalidate>
+              <div class="row my-2 align-items-center py-3 raised-back">
+                <div class="col-12">
+                  <label for="numberOfDiseases" class="grey-text text-nowrap">Roll Value:</label>
+                </div>
+                <div class="col-12 col-md-6 col-lg-8 col-xl-8">
+                  <input [(ngModel)]="rollValue" name="rollRange" type="range" [attr.min]="selectedTable.min" [attr.max]="selectedTable.max"
+                    class="slider-hero-thin">
+                </div>
+                <div class="col">
+                  <input [(ngModel)]="rollValue" required name="rolledValue" #rolledValue="ngModel" type="number" class="form-control" [ngClass]="{'form-control-danger': (rollForm.controls.rolledValue?.invalid) && (rollForm.controls.rolledValue?.touched || mouseoverRoll) }"
+                    [attr.min]="selectedTable.min" [attr.max]="selectedTable.max" [min]="selectedTable.min" [max]="selectedTable.max">
+                  <em *ngIf="rollForm.controls.rolledValue?.invalid && (rollForm.controls.rolledValue?.touched || mouseoverRoll)">Required ({{selectedTable.min}}-{{selectedTable.max}})</em>
+                </div>
+              </div>
+
+              <div class="d-flex mb-3" (mouseenter)="mouseoverRoll=true" (mouseleave)="mouseoverRoll=false">
+                <button id="generateResult" [disabled]="rollForm.invalid" type="submit" class="btn btn-hero-primary waves-effect waves-light ml-auto">Result</button>
+              </div>
+            </form>
+
+            <ul *ngIf="!edit && foundEntries" class="entries">
+              <li *ngFor="let entry of foundEntries">
+                <div class="row align-items-start">
+                  <div class="col">
+                    <div class="row">
+                      <div class="col d-flex">
+                        <span class="mr-2">Min:</span>
+                        <span class="badge badge-primary">{{entry.valRange.min}}</span>
+                      </div>
+                      <div class="col d-flex">
+                        <span class="mr-2">Max:</span>
+                        <span class="badge badge-primary">{{entry.valRange.max}}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col d-flex">
+                    <button (click)="editEntry(entry)" class="ml-auto btn btn-xs btn-info waves-effect waves-light">Edit</button>
+                    <button (click)="deleteEntry(entry)" class="btn btn-xs btn-danger waves-effect waves-light">Delete</button>
+                  </div>
+                  <div class="col-12">
+                    <ngx-table-result [entry]="entry"></ngx-table-result>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <!-- TABLE VIEW -->
+
+          <!-- EDIT VIEW -->
+          <div *ngIf="edit && tableEntryToEdit">
+            <div class="row mb-2 align-items-center">
+              <div class="col-12">
+                <nb-checkbox [(ngModel)]="entryRange" [ngModelOptions]="{standalone: true}">Value Range</nb-checkbox>
+              </div>
+            </div>
+
+            <div class="row mb-2 align-items-center">
+              <div class="col-12 col-sm-3">
+                <span *ngIf="!entryRange">Value:</span>
+                <span *ngIf="entryRange">Min:</span>
+              </div>
+              <div class="col-12 col-sm-7">
+                <input required [(ngModel)]="tableEntryToEdit.valRange.min" type="number" name="minim" #minim="ngModel" class="form-control"
+                  [ngClass]="{'form-control-danger': (entryForm.controls.name?.invalid) && (entryForm.controls.name?.touched || mouseoverEntry) }">
+                <em *ngIf="entryForm.controls.minim?.invalid && (entryForm.controls.minim?.touched || mouseoverEntry)">Required</em>
+              </div>
+            </div>
+
+            <div *ngIf="entryRange" class="row mb-2 align-items-center">
+              <div class="col-12 col-sm-3">
+                <span>Max:</span>
+              </div>
+              <div class="col-12 col-sm-7">
+                <input [required]="entryRange" [(ngModel)]="tableEntryToEdit.valRange.max" type="number" name="maxim" #maxim="ngModel"
+                  class="form-control" [ngClass]="{'form-control-danger': (entryForm.controls.name?.invalid) && (entryForm.controls.name?.touched || mouseoverEntry) }">
+                <em *ngIf="entryForm.controls.maxim?.invalid && (entryForm.controls.maxim?.touched || mouseoverEntry)">Required</em>
+              </div>
+            </div>
+
+            <div class="row align-items-center">
+              <div class="col-12">
+                <span class="mb-2">Description:</span>
+              </div>
+              <div class="col-12">
+                <textarea [(ngModel)]="tableEntryToEdit.description" name="description" class="form-control" rows="5"></textarea>
+              </div>
+            </div>
+          </div>
+          <!-- EDIT VIEW -->
+        </nb-card-body>
+      </form>
+    </nb-card>
+  </div>
+</div>
