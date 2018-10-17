@@ -159,12 +159,18 @@ export class TablesListComponent implements OnInit {
     this.cancelEdit();
     this.selectedTable = event.data;
     this.rollValue = event.data.min;
-    if (this.selectedTable.description.length < this.limitValue) {
+    if (this.selectedTable.description) {
+      const length = this.selectedTable.description.length;
+      if (length <= this.limitValue || length === 0) {
+        this.hideDescription = false;
+        this.limitDescription = false;
+      } else {
+        this.hideDescription = true;
+        this.limitDescription = true;
+      }
+    } else {
       this.hideDescription = false;
       this.limitDescription = false;
-    } else {
-      this.hideDescription = true;
-      this.limitDescription = true;
     }
   }
 

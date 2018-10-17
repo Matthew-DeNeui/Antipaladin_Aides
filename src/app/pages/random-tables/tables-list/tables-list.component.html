@@ -33,7 +33,7 @@
           <!-- TABLE VIEW -->
           <div *ngIf="selectedTable && !edit">
             <form #rollForm="ngForm" id="rollFormID" class="container-fluid" (ngSubmit)="findRollResult()" autocomplete="off" novalidate>
-              <div class="row my-2 align-items-center py-3 raised-back mb-2">
+              <div class="row align-items-center py-3 raised-back mt-2 mb-3">
                 <div class="col-12 d-flex">
                   <label class="grey-text text-nowrap">Description:</label>
                   <button *ngIf="!editTableDefDescription" (click)="editTableDescription()" class="ml-auto btn btn-xs btn-info waves-effect waves-light">Edit</button>
@@ -41,7 +41,7 @@
                   <button *ngIf="editTableDefDescription" (click)="cancelTableDescriptionEdit()" class="btn btn-xs btn-secondary waves-effect waves-light">Cancel</button>
                 </div>
                 <div class="col-12">
-                  <p *ngIf="!editTableDefDescription" class="col-12" class="text-indent">
+                  <p *ngIf="!editTableDefDescription" class="col-12 mb-0" class="text-indent">
                     <span *ngIf="hideDescription">
                       {{ selectedTable.description | limitTo: limitValue }}
                       <a *ngIf="limitDescription" class="text-info" (click)="hideDescription=false;">see more</a>
