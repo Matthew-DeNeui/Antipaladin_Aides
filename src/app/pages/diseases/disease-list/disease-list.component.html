@@ -1,6 +1,6 @@
 <div class="row align-items-start">
 
-  <div class="col-12 order-last col-md-7 order-md-first px-md-0">
+  <div class="col-12 order-last col-lg-7 order-lg-first">
     <nb-card>
       <nb-card-header>
         <div class="d-flex">
@@ -15,7 +15,7 @@
     </nb-card>
   </div>
 
-  <div class="col-12 order-first col-md-4 ml-md-5 order-md-last px-md-0">
+  <div class="col-12 order-first col-lg-4 ml-left order-lg-last" *ngIf="selectedDisease">
     <nb-card>
       <form #adupDisForm="ngForm" id="adupDis" class="container-fluid" (ngSubmit)="saveDisease()" autocomplete="off" novalidate>
       <nb-card-header class="no-border-b">

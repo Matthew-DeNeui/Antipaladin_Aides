@@ -1,6 +1,6 @@
 <div class="row align-items-start">
 
-  <div class="col-12 order-last col-md-4 order-md-first px-md-0">
+  <div class="col-12 order-last col-lg-5 order-md-first">
     <nb-card>
       <nb-card-header>
         <div class="d-flex">
@@ -16,13 +16,13 @@
     </nb-card>
   </div>
 
-  <div class="col-12 order-first col-md-7 ml-md-5 order-md-last px-md-0">
+  <div class="col-12 order-first col-lg-6 ml-left order-lg-last" *ngIf="selectedTable">
     <nb-card>
       <form #entryForm="ngForm" id="entryFormID" class="container-fluid" (ngSubmit)="saveEntry()" autocomplete="off" novalidate>
         <nb-card-header class="no-border-b">
           <div class="d-flex">
-            <span class="mr-auto">Table View</span>
-            <button (click)="addEntry()" *ngIf="!edit && selectedTable" class="btn btn-hero-success waves-effect waves-light">New</button>
+            <span class="mr-auto">{{selectedTable.tableName}}</span>
+            <button (click)="addEntry()" *ngIf="!edit" [disabled]="!selectedTable" class="btn btn-hero-success waves-effect waves-light">New</button>
             <button type="submit" [disabled]="entryForm.invalid" *ngIf="edit" class="btn btn-hero-success waves-effect waves-light" (mouseenter)="mouseoverEntry=true"
               (mouseleave)="mouseoverEntry=false">Save</button>
             <button (click)="cancelEdit()" *ngIf="edit" class="btn btn-hero-secondary waves-effect waves-light">Cancel</button>
@@ -39,7 +39,7 @@
                 </div>
                 <div class="col-12 col-md-6 col-lg-8 col-xl-8">
                   <input [(ngModel)]="rollValue" name="rollRange" type="range" [attr.min]="selectedTable.min" [attr.max]="selectedTable.max"
-                    class="slider-hero-thin">
+                    class="slider-hero-thin my-2 my-lg-0">
                 </div>
                 <div class="col">
                   <input [(ngModel)]="rollValue" required name="rolledValue" #rolledValue="ngModel" type="number" class="form-control" [ngClass]="{'form-control-danger': (rollForm.controls.rolledValue?.invalid) && (rollForm.controls.rolledValue?.touched || mouseoverRoll) }"

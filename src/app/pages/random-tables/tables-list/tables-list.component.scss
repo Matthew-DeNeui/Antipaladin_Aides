@@ -4,6 +4,12 @@ em { float:right; color: text-danger(); padding-left:10px; }
   border-bottom: none !important;
 }
 
+@media (min-width: 992px) {
+  .ml-left {
+    margin-left: 2rem !important;
+  }
+}
+
 @import '../../../@theme/styles/themes';
 @import '~@nebular/theme/styles/global/typography/typography';
 

@@ -10,7 +10,7 @@ import { SelectDiseasesService } from './select-diseases.service';
 export class InfectionsComponent implements OnInit {
   antPalLevel: string;
   diseaseNum: string;
-  selectedDiseases: Disease[] = [];
+  selectedDiseases: Disease[];
   mouseoverInfection: boolean;
 
   constructor(private selector: SelectDiseasesService) {}

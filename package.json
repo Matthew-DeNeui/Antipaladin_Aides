@@ -3,20 +3,25 @@
   "productName": "Antipaladin-Aides",
   "version": "0.0.0",
   "main": "electron-main.js",
+  "description": "POC for learning and hobbying.",
+  "build": {
+    "appId": "com.antipaladin.aides",
+    "productName": "Antipaladin Aides"
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "ngbuild": "ng build",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
+    "pack": "build --dir",
     "electron": "electron .",
     "electron-build": "ng build --prod && electron .",
     "build:prod": "npm run build -- -c production",
     "electron:linux": "npm run build:prod && npx electron-builder build --linux",
     "electron:windows": "rimraf Antipaladin-Aides-* && electron-packager . --platform=win32 --arch=x64 --icon=favicon.ico",
-    "package-w": "./node_modules/electron-packager/cli.js dist App --platform=win32 --arch=all --icon=./favicon.ico --out=dist-app --overwrite",
-    "electron:mac": "npm run build:prod && npx electron-builder build --mac"
+    "electron:mac": "rimraf Antipaladin-Aides-* && electron-packager . --platform=darwin --arch=x64 --icon=favicon.ico"
   },
   "private": true,
   "dependencies": {

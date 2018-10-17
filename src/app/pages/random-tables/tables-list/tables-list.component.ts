@@ -157,6 +157,7 @@ export class TablesListComponent implements OnInit {
 
   cancelEdit() {
     this.tableEntryToEdit = null;
+    this.foundEntries = null;
     this.edit = false;
     this.addNew = false;
     this.entryRange = false;
