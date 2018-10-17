@@ -9,6 +9,11 @@ import { RandomTableService } from '../services/random-table.service';
   styleUrls: ['./tables-list.component.scss']
 })
 export class TablesListComponent implements OnInit {
+  limitValue = 140;
+  hideDescription = true;
+  limitDescription = true;
+  editTableDefDescription = false;
+  newTableDescription: string;
   edit = false;
   addNew = false;
   selectedTable: TableDef;
@@ -45,6 +50,7 @@ export class TablesListComponent implements OnInit {
   constructor(private dbService: RandomTableService) { }
 
   ngOnInit() {
+    this.cancelTableDescriptionEdit();
     this.cancelEdit();
     this.refresh();
   }
@@ -120,7 +126,7 @@ export class TablesListComponent implements OnInit {
   }
 
   deleteEntry(tableEntry: TableEntry) {
-    if (window.confirm('THIS WILL NUKE EVERYTHING!!!\nAre you sure you want to delete EVERYTHING?')) {
+    if (window.confirm('THIS WILL BE IRREVERSIBLE!!!\nAre you sure you want to delete this entry?')) {
       this.dbService.removeTableEntry(tableEntry).then((numRemoved) => {
         this.findRollResult();
       });
@@ -153,6 +159,13 @@ export class TablesListComponent implements OnInit {
     this.cancelEdit();
     this.selectedTable = event.data;
     this.rollValue = event.data.min;
+    if (this.selectedTable.description.length < this.limitValue) {
+      this.hideDescription = false;
+      this.limitDescription = false;
+    } else {
+      this.hideDescription = true;
+      this.limitDescription = true;
+    }
   }
 
   cancelEdit() {
@@ -191,5 +204,23 @@ export class TablesListComponent implements OnInit {
         });
       });
     }
+  }
+
+  editTableDescription() {
+    this.editTableDefDescription = true;
+    this.newTableDescription = this.selectedTable.description;
+  }
+
+  saveTableDescription() {
+    this.editTableDefDescription = false;
+    this.selectedTable.description = this.newTableDescription;
+    this.dbService.updateTableDefinitionDescription(this.selectedTable).then(() => {
+      this.refresh();
+    });
+  }
+
+  cancelTableDescriptionEdit() {
+    this.editTableDefDescription = false;
+    this.newTableDescription = '';
   }
 }

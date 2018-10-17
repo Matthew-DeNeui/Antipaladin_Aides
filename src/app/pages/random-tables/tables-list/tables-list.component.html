@@ -33,6 +33,29 @@
           <!-- TABLE VIEW -->
           <div *ngIf="selectedTable && !edit">
             <form #rollForm="ngForm" id="rollFormID" class="container-fluid" (ngSubmit)="findRollResult()" autocomplete="off" novalidate>
+              <div class="row my-2 align-items-center py-3 raised-back mb-2">
+                <div class="col-12 d-flex">
+                  <label class="grey-text text-nowrap">Description:</label>
+                  <button *ngIf="!editTableDefDescription" (click)="editTableDescription()" class="ml-auto btn btn-xs btn-info waves-effect waves-light">Edit</button>
+                  <button *ngIf="editTableDefDescription" (click)="saveTableDescription()" class="ml-auto btn btn-xs btn-success waves-effect waves-light">Save</button>
+                  <button *ngIf="editTableDefDescription" (click)="cancelTableDescriptionEdit()" class="btn btn-xs btn-secondary waves-effect waves-light">Cancel</button>
+                </div>
+                <div class="col-12">
+                  <p *ngIf="!editTableDefDescription" class="col-12" class="text-indent">
+                    <span *ngIf="hideDescription">
+                      {{ selectedTable.description | limitTo: limitValue }}
+                      <a *ngIf="limitDescription" class="text-info" (click)="hideDescription=false;">see more</a>
+                    </span>
+                    <span *ngIf="!hideDescription">
+                      {{ selectedTable.description }}
+                      <a *ngIf="limitDescription" class="text-info" (click)="hideDescription=true;">hide</a>
+                    </span>
+                  </p>
+                  <textarea *ngIf="editTableDefDescription" [(ngModel)]="newTableDescription" name="tableDescription" class="form-control" rows="5"></textarea>
+                </div>
+
+              </div>
+
               <div class="row my-2 align-items-center py-3 raised-back">
                 <div class="col-12">
                   <label for="numberOfDiseases" class="grey-text text-nowrap">Roll Value:</label>
@@ -106,8 +129,8 @@
                 <span>Max:</span>
               </div>
               <div class="col-12 col-sm-7">
-                <input [required]="entryRange" [(ngModel)]="tableEntryToEdit.valRange.max" type="number" name="maxim" #maxim="ngModel"
-                  class="form-control" [ngClass]="{'form-control-danger': (entryForm.controls.name?.invalid) && (entryForm.controls.name?.touched || mouseoverEntry) }">
+                <input [required]="entryRange" [(ngModel)]="tableEntryToEdit.valRange.max" type="number" name="maxim" #maxim="ngModel" class="form-control"
+                  [ngClass]="{'form-control-danger': (entryForm.controls.name?.invalid) && (entryForm.controls.name?.touched || mouseoverEntry) }">
                 <em *ngIf="entryForm.controls.maxim?.invalid && (entryForm.controls.maxim?.touched || mouseoverEntry)">Required</em>
               </div>
             </div>

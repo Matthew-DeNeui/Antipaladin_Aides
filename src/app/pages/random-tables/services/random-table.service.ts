@@ -173,6 +173,29 @@ export class RandomTableService {
     });
   }
 
+  updateTableDefinitionDescription(tableDef: TableDef) {
+    return new Promise<number>((resolve, reject) => {
+      this.randomtablesDB.update(
+        { _id: tableDef._id },
+        { $set: { description: tableDef.description } },
+        function(err, numReplaced, upsert) {
+          if (err) {
+            console.log(
+              `ERROR UPSERTING TABLE DEFINITION: ${tableDef.tableName}: `,
+              err
+            );
+            reject(
+              `ERROR UPSERTING TABLE DEFINITION: ${tableDef.tableName}: ${err}`
+            );
+          } else {
+            console.log('UPDATED: ', upsert);
+            resolve(numReplaced);
+          }
+        }
+      );
+    });
+  }
+
   insertTableDefinition(tableDef: TableDef) {
     return new Promise<TableDef>((resolve, reject) => {
       this.randomtablesDB.insert([tableDef], function(
